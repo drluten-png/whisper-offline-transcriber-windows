@@ -78,7 +78,7 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 2. Необязательно: заполните **подсказку** и **словарь терминов** — это повышает
    точность на именах и специальных словах.
 3. Готовые `.txt` лежат в папке `output/`. Оттуда их можно скачать, переименовать
-   или открыть в Finder прямо из интерфейса.
+   или показать в проводнике (на macOS — в Finder) прямо из интерфейса.
 
 ## Словарь терминов и имён
 
@@ -135,9 +135,11 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 ## Что внутри
 
 ```
-whisper_app/
-├── Запустить Whisper.command   запуск двойным кликом
-├── setup.sh                    установка окружения
+whisper-offline-transcriber/
+├── start.bat                   запуск двойным кликом (Windows)
+├── setup.ps1                   установка окружения (Windows)
+├── Запустить Whisper.command   запуск двойным кликом (macOS)
+├── setup.sh                    установка окружения (macOS)
 ├── server.py                   сервер: ffmpeg, VAD, распознавание, очередь задач
 ├── index.html / style.css / app.js   интерфейс
 ├── models/silero_vad.onnx      модель определения речи (2 МБ)
