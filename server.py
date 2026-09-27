@@ -1891,6 +1891,7 @@ class Handler(BaseHTTPRequestHandler):
                 "mem_total": total_memory_bytes(),
                 "mem_available": available_memory_bytes(),
                 "model_label": (catalog_entry(MODEL) or {}).get("label", MODEL),
+                "platform": sys.platform,
             })
             return
 

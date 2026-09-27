@@ -18,6 +18,25 @@ const $ = (id) => document.getElementById(id);
 const drop = $('drop');
 const fileInput = $('fileInput');
 
+/* Как называть файловый менеджер и файл запуска на разных системах.
+   Пилот на Windows: «Показать в Finder» — это macOS-термин, нужен проводник. */
+function revealWord() {
+  const p = String((state.info && state.info.platform) || '');
+  if (p === 'darwin') return 'Finder';
+  if (p.indexOf('win') === 0) return 'проводнике';
+  return 'файловом менеджере';
+}
+function launchName() {
+  const p = String((state.info && state.info.platform) || '');
+  if (p === 'darwin') return '«Запустить Whisper.command»';
+  if (p.indexOf('win') === 0) return 'start.bat';
+  return 'скрипт запуска';
+}
+function revealBtnText() {
+  const p = String((state.info && state.info.platform) || '');
+  return (p === 'darwin') ? 'Показать в Finder' : 'Показать в папке';
+}
+
 // --------------------------------------------------------------------------
 // Утилиты
 // --------------------------------------------------------------------------
@@ -209,7 +228,7 @@ function renderBanner() {
     b.hidden = false;
     b.className = 'banner banner-error';
     b.innerHTML = '<b>Нет связи с приложением.</b> Похоже, окно Terminal закрыто или '
-      + 'приложение остановлено. Запустите «Запустить Whisper.command» заново — '
+      + 'приложение остановлено. Запустите ' + launchName() + ' заново — '
       + 'уже готовые транскрипции останутся в папке output.';
   } else {
     b.hidden = true;
@@ -365,7 +384,7 @@ async function downloadJob(id) {
   } catch (e) {
     setOffline(true);
     addNotice('Приложение не отвечает — скачивание невозможно. Файлы лежат в папке '
-      + 'whisper_app/output, их можно открыть в Finder.');
+      + 'output, их можно открыть в ' + revealWord() + '.');
   }
 }
 
@@ -474,7 +493,7 @@ function renderJob(job) {
       actions = `<button class="btn" data-download="${esc(job.id)}" ${focusAttrs(job.id, 'download')}>Скачать TXT</button>
         <button class="btn btn-ghost" data-apply-glossary="${esc(job.id)}" ${focusAttrs(job.id, 'glossary')}>Словарь</button>
         <button class="btn btn-ghost" data-rename="${esc(job.id)}" ${focusAttrs(job.id, 'rename')}>Переименовать</button>
-        <button class="btn btn-ghost" data-reveal="${esc(job.id)}" ${focusAttrs(job.id, 'reveal')}>Показать в Finder</button>
+        <button class="btn btn-ghost" data-reveal="${esc(job.id)}" ${focusAttrs(job.id, 'reveal')}>${esc(revealBtnText())}</button>
         <button class="btn btn-ghost" data-hide="${esc(job.id)}" ${focusAttrs(job.id, 'hide')}>Убрать</button>`;
     }
   } else if (job.status === 'error') {
