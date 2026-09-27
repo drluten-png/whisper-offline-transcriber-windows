@@ -65,7 +65,7 @@ print('=== ОШИБОЧНЫЕ СЦЕНАРИИ ===')
 code, e1 = req('POST', '/api/upload', b'', headers={'Content-Type': 'application/octet-stream', 'X-Filename': 'empty.wav'})
 check('Пустой файл отклонён', code in (400, 413), 'код %s: %s' % (code, e1))
 
-code, dl = req('GET', '/api/download?id=несуществующий')
+code, dl = req('GET', '/api/download?id=nonexistent123')
 check('Скачивание несуществующего', code in (400, 404), 'код %s' % code)
 
 code, rn = req('POST', '/api/rename', {'id': 'несуществующий', 'name': 'x'})
