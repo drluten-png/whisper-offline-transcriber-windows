@@ -157,24 +157,28 @@ MODEL_CATALOG_FASTER = [
         "id": "deepdml/faster-whisper-large-v3-turbo-ct2",
         "label": "Large v3 turbo (процессор)",
         "size_mb": 1543,
+        "speed": 9.0,
         "note": "Лучшее качество на процессоре. Скорость зависит от машины",
     },
     {
         "id": "Systran/faster-whisper-small",
         "label": "Small (процессор)",
         "size_mb": 461,
+        "speed": 5.0,
         "note": "Быстрее, но хуже распознаёт имена и термины",
     },
     {
         "id": "Systran/faster-whisper-base",
         "label": "Base (процессор)",
         "size_mb": 145,
+        "speed": 1.9,
         "note": "Самая лёгкая, качество на русском невысокое",
     },
     {
         "id": "Systran/faster-whisper-tiny",
         "label": "Tiny — «нано» (процессор)",
         "size_mb": 39,
+        "speed": 1.0,
         "note": "Самая быстрая на слабых машинах, но качество на русском низкое — для черновых расшифровок",
     },
 ]
@@ -742,7 +746,10 @@ def rename_output(jid: str, new_name: str) -> tuple[bool, str]:
 # --------------------------------------------------------------------------
 HF_HOME = os.environ.get("HF_HOME") or os.path.join(
     os.path.expanduser("~"), ".cache", "huggingface")
-WEIGHT_FILES = ("weights.safetensors", "weights.npz")
+# Веса бывают в разных форматах: MLX (weights.safetensors / weights.npz) и
+# CTranslate2 для faster-whisper (model.bin). Без model.bin на Windows все
+# модели показывались как «не установлены», хотя работали.
+WEIGHT_FILES = ("weights.safetensors", "weights.npz", "model.bin")
 
 
 def model_cache_dir(model_id: str) -> str:

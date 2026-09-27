@@ -143,7 +143,13 @@ function renderModels() {
       else if (m.installed) mark = 'установлена';
       else if (m.download && m.download.status === 'downloading') mark = 'скачивается…';
       else mark = `скачать ${m.size_mb} МБ`;
-      return `<option value="${esc(m.id)}">${esc(m.label)} — ${mark}</option>`;
+      /* скорость относительно tiny: замеры на CPU (int8, русский) — tiny 4.6с,
+         base 8.8с, small 22.8с на файле 2:55. Turbo ≈ в 9 раз медленнее tiny. */
+      let sp = '';
+      if (m.speed != null) {
+        sp = (m.speed <= 1.05) ? ' · самая быстрая' : ` · ×${m.speed} медленнее tiny`;
+      }
+      return `<option value="${esc(m.id)}">${esc(m.label)} — ${mark}${sp}</option>`;
     }).join('');
     sel.dataset.sig = sig;
   }
@@ -151,11 +157,17 @@ function renderModels() {
   const chosen = d.catalog.find((m) => m.id === state.modelChoice) || d.catalog[0];
   sel.value = chosen.id;
   const dl = chosen.download || {};
+  /* подпись скорости: замеры на CPU — насколько модель медленнее самой быстрой (tiny) */
+  const spText = (chosen.speed != null)
+    ? (chosen.speed <= 1.05
+        ? 'Это самая быстрая модель.'
+        : `Скорость: примерно ×${chosen.speed} от самой быстрой (tiny).`)
+    : '';
 
   if (chosen.current) {
     btn.hidden = true;
     sel.disabled = false;
-    hint.textContent = 'Эта модель используется сейчас. ' + (chosen.note || '');
+    hint.textContent = 'Эта модель используется сейчас. ' + spText + ' ' + (chosen.note || '');
   } else if (dl.status === 'downloading') {
     btn.hidden = false;
     btn.disabled = true;
