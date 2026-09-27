@@ -171,6 +171,12 @@ MODEL_CATALOG_FASTER = [
         "size_mb": 145,
         "note": "Самая лёгкая, качество на русском невысокое",
     },
+    {
+        "id": "Systran/faster-whisper-tiny",
+        "label": "Tiny — «нано» (процессор)",
+        "size_mb": 39,
+        "note": "Самая быстрая на слабых машинах, но качество на русском низкое — для черновых расшифровок",
+    },
 ]
 
 MODEL_CATALOG = MODEL_CATALOG_MLX if BACKEND == "mlx" else MODEL_CATALOG_FASTER
