@@ -143,8 +143,8 @@ function renderModels() {
       else if (m.installed) mark = 'установлена';
       else if (m.download && m.download.status === 'downloading') mark = 'скачивается…';
       else mark = `скачать ${m.size_mb} МБ`;
-      /* скорость относительно tiny: замеры на CPU (int8, русский) — tiny 4.6с,
-         base 8.8с, small 22.8с на файле 2:55. Turbo ≈ в 9 раз медленнее tiny. */
+      /* скорость относительно tiny: замеры на реальной русской речи (4:09, CPU int8,
+         beam=5) — tiny 11.3с, base 18.6с (×1.6), small 45.4с (×4.0), turbo 52.1с (×4.6). */
       let sp = '';
       if (m.speed != null) {
         sp = (m.speed <= 1.05) ? ' · самая быстрая' : ` · ×${m.speed} медленнее tiny`;

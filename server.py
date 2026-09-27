@@ -157,21 +157,21 @@ MODEL_CATALOG_FASTER = [
         "id": "deepdml/faster-whisper-large-v3-turbo-ct2",
         "label": "Large v3 turbo (процессор)",
         "size_mb": 1543,
-        "speed": 9.0,
+        "speed": 4.6,
         "note": "Лучшее качество на процессоре. Скорость зависит от машины",
     },
     {
         "id": "Systran/faster-whisper-small",
         "label": "Small (процессор)",
         "size_mb": 461,
-        "speed": 5.0,
+        "speed": 4.0,
         "note": "Быстрее, но хуже распознаёт имена и термины",
     },
     {
         "id": "Systran/faster-whisper-base",
         "label": "Base (процессор)",
         "size_mb": 145,
-        "speed": 1.9,
+        "speed": 1.6,
         "note": "Самая лёгкая, качество на русском невысокое",
     },
     {
@@ -182,6 +182,9 @@ MODEL_CATALOG_FASTER = [
         "note": "Самая быстрая на слабых машинах, но качество на русском низкое — для черновых расшифровок",
     },
 ]
+# Скорости — замеры на реальной русской речи (4:09, озвучка статьи Википедии,
+# CPU int8, beam=5, VAD): tiny 11.3 с, base 18.6 с, small 45.4 с, turbo 52.1 с.
+# Коэффициенты указаны относительно самой быстрой (tiny).
 
 MODEL_CATALOG = MODEL_CATALOG_MLX if BACKEND == "mlx" else MODEL_CATALOG_FASTER
 DEFAULT_MODEL = MODEL_CATALOG[0]["id"] if MODEL_CATALOG else ""
